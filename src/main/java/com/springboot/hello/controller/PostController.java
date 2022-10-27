@@ -1,15 +1,13 @@
-package com.example.controller;
+package com.springboot.hello.controller;
 
-import com.example.domain.MemberDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.springboot.hello.domain.MemberDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/put-api")
-public class PutController {
+@RequestMapping("/api/v1/post-api")
+public class PostController {
 
     @RequestMapping(value = "/domian", method = RequestMethod.POST)
     public String postExample() {
@@ -27,13 +25,6 @@ public class PutController {
     @PostMapping("/member2")
     public String postMember(@RequestBody MemberDto memberDto) {
         return memberDto.toString();
-    }
-
-    @PutMapping("/member3")
-    public ResponseEntity<MemberDto> putMember(@RequestBody MemberDto memberDto) {
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body(memberDto);
     }
 
 

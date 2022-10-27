@@ -1,4 +1,4 @@
-package com.example.configuration;
+package com.springboot.hello.configuration;
 
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.PathSelectors;
