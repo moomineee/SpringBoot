@@ -36,7 +36,7 @@ public class UserDao {
     }
 
     public User findById(String id) {
-        String sql = "select * from users where id = ?";
+가        String sql = "select id, name, password from users where id = ?";
         return this.jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 
