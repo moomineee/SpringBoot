@@ -8,7 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/get-api")
-@Slf4j // 로그 기록 남기기
+@Slf4j // 로그 기록 남기기 Logback
 public class GetController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello() {
