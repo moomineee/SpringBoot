@@ -1,15 +1,11 @@
 package com.springboot.hello.controller;
 
 import com.springboot.hello.UserDao.UserDao;
-경import com.springboot.hello.domain.User;
+import com.springboot.hello.domain.User;
+import com.springboot.hello.domain.dto.UserRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.SQLException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -32,10 +28,19 @@ public class UserController {
         return userDao.findById("1");
     }
 
-    @DeleteMapping("/user")
-    public ResponseEntity<Integer> deleteAll() {
+    //postMapping 추가해야함.
+    @PostMapping("/")
+    public ResponseEntity<Integer> add(@RequestBody UserRequestDto userRequestDto) {
+        User user = new User(userRequestDto.getId(), userRequestDto.getName(), userRequestDto.getPassword());
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .ok()
+                .body(userDao.add(user));
+    }
+
+    @DeleteMapping("/user")
+    public ResponseEntity<Integer> deleteAll() { // deleteAll로 매핑하므로 RequestBody는 필요가 없다.
+        return ResponseEntity
+                .ok()
                 .body(userDao.deleteAll());
     }
 }
