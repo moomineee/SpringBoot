@@ -3,7 +3,6 @@ package com.springboot.hello.controller;
 import com.springboot.hello.UserDao.UserDao;
 import com.springboot.hello.domain.User;
 import com.springboot.hello.domain.dto.UserRequestDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +21,21 @@ public class UserController {
         return "Hello World";
     }
 
-    @GetMapping("/user")
-    public User add(User user) throws Exception {
-        userDao.add(new User("1", "kos", "1234"));
-        return userDao.findById("1");
+    @GetMapping("/{id}")
+    public ResponseEntity<User> get(@PathVariable String id) {
+        try {
+            User user = userDao.findById(id);
+            return ResponseEntity.ok()
+                    .body(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+//    public ResponseEntity<User> get(@PathVariable String id) { // 위의 get은 이걸 try-catch한 것.
+//        User user = userDao.findById(id);
+//        return ResponseEntity.ok()
+//                .body(this.userDao.findById(id));
+//    }
 
     //postMapping 추가해야함.
     @PostMapping("/")
