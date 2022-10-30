@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Component
+@Component // 스프링이 관리하는 빈으로 등록. 빈으로 등록된 객체는 다른 클래스가 인터페이스를 가지고 의존성을 주입받을 때 이 구현체를 찾아 주입하게 된다.
 public class UserDao {
 
     private final DataSource dataSource;
@@ -19,7 +19,8 @@ public class UserDao {
     public UserDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
-    }
+    } // DAO 객체에서도 DB에 접근하기 위해 리포지토리  인터페이스를 사용해 의존성 주입을 받아야 한다.
+      // 리포지토리를 정의하고 생성자를 통해 의존성을 주입받는 과정.
 
     private RowMapper<User> rowMapper = new RowMapper<>() {
         @Override
@@ -30,13 +31,13 @@ public class UserDao {
         }
     };
 
-    public void add(User user) {
-        this.jdbcTemplate.update("insert into users(id,name,password) values (?,?,?)",
+    public int add(User user) {
+        return this.jdbcTemplate.update("insert into users(id,name,password) values (?,?,?)",
                 user.getId(), user.getName(), user.getPassword());
     }
 
-    public User findById(String id) {
-가        String sql = "select id, name, password from users where id = ?";
+    public User findById(String id) { // 내부적으로 EntitiyManger의 find()메서드 호출. 리턴 값으로 String 객체 전달.
+        String sql = "select id, name, password from users where id = ?";
         return this.jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 
