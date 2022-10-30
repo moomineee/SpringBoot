@@ -31,7 +31,8 @@ public class UserController {
             throw new RuntimeException(e);
         }
     }
-//    public ResponseEntity<User> get(@PathVariable String id) { // 위의 get은 이걸 try-catch한 것.
+ // 위의 get은 이걸 try-catch한 것
+//    public ResponseEntity<User> get(@PathVariable String id) {
 //        User user = userDao.findById(id);
 //        return ResponseEntity.ok()
 //                .body(this.userDao.findById(id));
