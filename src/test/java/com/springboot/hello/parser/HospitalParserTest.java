@@ -26,7 +26,7 @@ class HospitalParserTest {
         assertEquals(3620000,hospital.getOpenLocalGovernmentCode()); // columnNum : 3
         assertEquals("PHMA119993620020041100004",hospital.getManagementNumber()); // columnNum : 4
         assertEquals(LocalDateTime.of(1999, 6, 12, 0, 0, 0), hospital.getLicenseDate()); //19990612  // columnNum : 5
-        assertEquals(7, hospital.getBusinessStatus()); // columnNum : 7
+        assertEquals(1, hospital.getBusinessStatus()); // columnNum : 7
         assertEquals(13, hospital.getBusinessStatusCode()); // columnNum : 9
         assertEquals("062-515-2875", hospital.getPhone()); // columnNum : 15
         assertEquals("광주광역시 북구 풍향동 565번지 4호 3층", hospital.getFullAddress()); // columnNum : 18
