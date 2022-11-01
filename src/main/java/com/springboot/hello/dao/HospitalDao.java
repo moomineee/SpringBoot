@@ -2,7 +2,11 @@ package com.springboot.hello.dao;
 
 import com.springboot.hello.domain.Hospital;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class HospitalDao {
@@ -11,6 +15,10 @@ public class HospitalDao {
 
     public HospitalDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void deletAll() {
+        this.jdbcTemplate.update("delete from nation_wide_hospitals");
     }
 
     public int getCount() {
