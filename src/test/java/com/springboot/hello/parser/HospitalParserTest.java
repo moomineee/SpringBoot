@@ -1,5 +1,6 @@
 package com.springboot.hello.parser;
 
+import com.springboot.hello.dao.HospitalDao;
 import com.springboot.hello.domain.Hospital;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,22 @@ class HospitalParserTest {
     @Autowired // 주로 Test에서 쓰는 추세. 서비스 코드는 final과 constructor를 쓴다. 이렇게 해도 Spring이 DI를 한다.
     ReadLineContext<Hospital> hospitalReadLineContext;
 
+    @Autowired // factory도 없는데 왜 DI가 되냐? HospitalDao에 @Component Annotation. Springboot App -> ComponentScan으로 인해 가능
+                // @Component 어노테이션이 달린 클래스를 Bean으로 등록한다. 따라서 factory가 없어도 된다.
+    HospitalDao hospitalDao;
+
+    @Test
+    @DisplayName("Hospital이 insert가 잘 되는지")
+    void add() {
+        HospitalParser hp = new HospitalParser();
+        Hospital hospital = hp.parse(line1);
+        hospitalDao.add(hospital);
+    }
+
     @Test
     @DisplayName("10만건 이상 데이터가 파싱되는지")
     void name() throws IOException {
-        String filename = "/Users/moomin/Downloads/fulldata_01_01_02_P_의원.csv";
+        String filename = "/Users/moomin/Downloads/nation_wide_hospital.csv";
         List<Hospital> hospitalList = hospitalReadLineContext.readByLine(filename);
         assertTrue(hospitalList.size() > 10000); // 데이터가 만개가 넘으면 잘된걸로
         assertTrue(hospitalList.size() > 100000);
