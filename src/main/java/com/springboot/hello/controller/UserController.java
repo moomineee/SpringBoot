@@ -1,6 +1,6 @@
 package com.springboot.hello.controller;
 
-import com.springboot.hello.UserDao.UserDao;
+import com.springboot.hello.dao.UserDao;
 import com.springboot.hello.domain.User;
 import com.springboot.hello.domain.dto.UserRequestDto;
 import org.springframework.http.ResponseEntity;

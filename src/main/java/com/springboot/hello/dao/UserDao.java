@@ -1,10 +1,9 @@
-package com.springboot.hello.UserDao;
+package com.springboot.hello.dao;
 
 import com.springboot.hello.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
