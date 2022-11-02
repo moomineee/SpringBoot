@@ -2,14 +2,13 @@ package com.springboot.hello.parser;
 
 import com.springboot.hello.dao.HospitalDao;
 import com.springboot.hello.domain.Hospital;
+import com.springboot.hello.service.HospitalService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest // 중요. Extendswith, ConfigurationContext를 대체. SpringBoot가 스캔해서 등록한 Bean을 Test에서 쓸 수 있게 해준다.
@@ -24,6 +23,10 @@ class HospitalParserTest {
 
     @Autowired           // @Component 어노테이션이 달린 클래스를 Bean으로 등록한다. 따라서 factory가 없어도 된다.
     HospitalDao hospitalDao; // factory도 없는데 왜 DI가 되냐? HospitalDao에 @Component Annotation. Springboot App -> ComponentScan으로 인해 가능
+
+    @Autowired
+    HospitalService hospitalService;
+
     @Test
     @DisplayName("Hospital이 insert가 잘 되고, select도 잘 되는지")
     void addAndGet() {
@@ -61,13 +64,12 @@ class HospitalParserTest {
     @Test
     @DisplayName("10만건 이상 데이터가 파싱되는지")
     void name() throws IOException {
+        hospitalDao.deletAll();
         String filename = "/Users/moomin/Downloads/nation_wide_hospital.csv";
-        List<Hospital> hospitalList = hospitalReadLineContext.readByLine(filename);
-        assertTrue(hospitalList.size() > 10000); // 데이터가 만개가 넘으면 잘된걸로
-        assertTrue(hospitalList.size() > 100000);
-        for (int i = 0; i < 10; i++) {
-            System.out.println(hospitalList.get(i).getHospitalName());
-        }
+        int cnt = this.hospitalService.insertLargeVolumeHospitalData(filename);
+        assertTrue(cnt > 1000); // 데이터가 만개가 넘으면 잘된걸로
+        assertTrue(cnt > 10000);
+        System.out.printf("parsing된 데이터 개수 : %d", cnt);
     }
 
     @Test
