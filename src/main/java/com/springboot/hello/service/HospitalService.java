@@ -31,7 +31,7 @@ public class HospitalService {
             hospitalList.stream() // 뭐냐
                     .parallel() // 이건 뭐냐
                     .forEach(hospital -> { // 이건 또 뭐냐
-                        try {
+                        try { //
                             this.hospitalDao.add(hospital); // db에 insert하는 구간
                         } catch (Exception e) {
                             System.out.printf("id : %d 레코드에 문제가 있습니다.\n", hospital.getId());

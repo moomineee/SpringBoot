@@ -23,7 +23,7 @@ public class HospitalController {
     @GetMapping("/{id}")
     public ResponseEntity<Hospital> get(@PathVariable Integer id) {
         Hospital hospital = hospitalDao.findById(id);
-        Optional<Hospital> opt = Optional.of(hospital);
+        Optional<Hospital> opt = Optional.of(hospital); // Optional
 
         if (!opt.isEmpty()) {
             return ResponseEntity.ok().body(hospital);
