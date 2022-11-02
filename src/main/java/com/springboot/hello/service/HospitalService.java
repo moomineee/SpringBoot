@@ -4,9 +4,11 @@ import com.springboot.hello.dao.HospitalDao;
 import com.springboot.hello.domain.Hospital;
 import com.springboot.hello.parser.ReadLineContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HospitalService {
@@ -19,25 +21,32 @@ public class HospitalService {
         this.hospitalReadLineContext = hospitalReadLineContext;
         this.hospitalDao = hospitalDao;
     }
-//    @Transactional 빠르게 해주는 것
+
+    @Transactional
     public int insertLargeVolumeHospitalData(String filename) {
-        int cnt = 0;
+        List<Hospital> hospitalList;
         try {
-            List<Hospital> hospitalList = hospitalReadLineContext.readByLine(filename);
+            hospitalList = hospitalReadLineContext.readByLine(filename);
             System.out.println("parsing이 끝났습니다.");
-            for (Hospital hospital : hospitalList) { // loop구간
-                try {
-                    this.hospitalDao.add(hospital); // db에 insert하는 구간
-                    cnt++;
-                } catch (Exception e) {
-                    System.out.printf("id:%d 레코드에 문제가 있습니다.", hospital.getId());
-                    throw new RuntimeException(e);
-                }
-            }
+            hospitalList.stream()
+                    .parallel()
+                    .forEach(hospital -> {
+                        try {
+                            this.hospitalDao.add(hospital); // db에 insert하는 구간
+                        } catch (Exception e) {
+                            System.out.printf("id : %d 레코드에 문제가 있습니다.\n", hospital.getId());
+                            throw new RuntimeException(e);
+                        }
+                    });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return cnt;
+        if (!Optional.of(hospitalList).isEmpty()) {
+            return hospitalList.size();
+        } else {
+            return 0;
+        }
     }
 }
+
 
