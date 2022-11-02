@@ -25,6 +25,10 @@ public class HospitalController {
         Hospital hospital = hospitalDao.findById(id);
         Optional<Hospital> opt = Optional.of(hospital);
 
-        if()
+        if () {
+
+        } else {
+
+        }
     }
 }
